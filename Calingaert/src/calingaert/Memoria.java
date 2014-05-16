@@ -18,13 +18,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Memoria {
-    int valorcarga;       //guarda valor que esta carregada para uso
+    int acumulador;       //guarda valor que esta carregada para uso
     int poscontador;    //guarda a possição que esta sendo lida do veotr codigo
     private int codigo[]=new int[100];
     private String nomeArq;
     
     public Memoria(){
-        valorcarga=0;
+        acumulador=0;
         poscontador=0;
         nomeArq="arquivo.txt";
     }
@@ -71,6 +71,7 @@ public class Memoria {
                         flag=1;
                     }
                     else if((guarda.substring(iterador,iterador+1).equals(" "))&&(flag==1)){
+                        System.out.println("Entro3");
                         dois = guarda.substring(controle,iterador);
                         iterador++;
                         controle=iterador;
@@ -78,10 +79,12 @@ public class Memoria {
                         flag=2;
                         iterador=tamanhostring;    //corta a ultima avaliação
                     }
-                    else if(flag==1){
+                    else if(flag==1){                       //ERRO tem que diferenciar de espaço e numero
+                        System.out.println("Entro2");
                         dois = guarda.substring(controle,tamanhostring);
                     }
-                    else{
+                    else if((flag==0)){                     //ERRO tem que diferenciar de espaço e numero
+                        System.out.println("Entro1");
                         um = guarda.substring(controle,tamanhostring);
                     }
                 }
@@ -108,12 +111,12 @@ public class Memoria {
         }
     }
     
-    public void Compilador(){
-        int opd1,opd2;  //posição de operadores que serão usados nas operações
+    public int Compilador(){
+        int opd1,opd2,r=0;  //posição de operadores que serão usados nas operações
         //1--add cod.maq=02
         if(codigo[poscontador]==02){
             opd1=poscontador+1;
-            valorcarga+=codigo[opd1];
+            acumulador+=codigo[opd1];
             poscontador=opd1+1;
         }
         //2--br cod.maq=00
@@ -124,7 +127,7 @@ public class Memoria {
         }
         //3--brneg cod.maq=05
         else if(codigo[poscontador]==05){
-            if(valorcarga<0){
+            if(acumulador<0){
                 opd1=poscontador+1;
                 poscontador=codigo[opd1];
             }
@@ -134,7 +137,7 @@ public class Memoria {
         }
         //4--brpos cod.maq=01
         else if(codigo[poscontador]==01){
-            if(valorcarga>0){
+            if(acumulador>0){
                 opd1=poscontador+1;
                 poscontador=codigo[opd1];
             }
@@ -144,7 +147,7 @@ public class Memoria {
         }
         //5--brzero cod.maq=04
         else if(codigo[poscontador]==04){
-            if(valorcarga==00){
+            if(acumulador==00){
                 opd1=poscontador+1;
                 poscontador=codigo[opd1];      
             }
@@ -162,12 +165,50 @@ public class Memoria {
         //7--divide cod.maq=10
         else if(codigo[poscontador]==10){
             opd1=poscontador+1;
-            valorcarga=valorcarga+codigo[opd1];
+            acumulador=acumulador/codigo[opd1];
             poscontador=opd1+1;
         }
-        
-        //PARTE PARA TERMINAR
-        
+        //8--load cod.maq=03
+        else if(codigo[poscontador]==03){
+            opd1=poscontador+1;
+            acumulador=codigo[opd1];
+            poscontador=opd1+1;
+        }
+        //9--mult cod.maq=14
+        else if(codigo[poscontador]==14){
+            opd1=poscontador+1;
+            acumulador=acumulador*codigo[opd1];
+            poscontador=opd1+1;
+        }
+        //10--read cod.maq=12
+        else if(codigo[poscontador]==12){
+            opd1=poscontador+1;
+            codigo[opd1]=acumulador;            //input stream--confirmar se eh acumulador
+            poscontador=opd1+1;
+        }
+        //11--stop cod.maq=11
+        else if(codigo[poscontador]==11){
+            r=codigo[poscontador];
+        }
+        //12--store cod.maq=07
+        else if(codigo[poscontador]==07){
+            opd1=poscontador+1;
+            codigo[opd1]=acumulador;
+            poscontador=opd1+1;
+        }
+        //13--sub cod.maq=06
+        else if(codigo[poscontador]==06){
+            opd1=poscontador+1;
+            acumulador=acumulador-codigo[opd1];
+            poscontador=opd1+1;
+        }
+        //14--write cod.maq=08
+        else if(codigo[poscontador]==8){
+            opd1=poscontador+1;
+            acumulador=codigo[opd1];                //verificar se esta certo
+            poscontador=opd1+1;
+        }
+        return r;                             //para terminar execução
     }
     
     public boolean Controle(){
@@ -182,11 +223,11 @@ public class Memoria {
         return retorno;
     }
     
-    public int Carga(){         //devolve para mostrar na tela o valor que esta na carga para uso.
-        return valorcarga;
+    public int GetAcumulador(){         //devolve para mostrar na tela o valor que esta na carga para uso.
+        return acumulador;
     }
     
-    public int Contador(){      //devolve para mostrar na tela a posiçao que esta sendo linda do contador
+    public int GetContador(){      //devolve para mostrar na tela a posiçao que esta sendo linda do contador
         return poscontador;
     }
     

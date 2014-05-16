@@ -20,14 +20,18 @@ public class Calingaert {
         
     public static void main(String[] args) throws IOException {
         // TODO code application logic here
-    
-        Memoria var=new Memoria();
+        int r;
+        Memoria var=new Memoria();  //cria objeto
+        
         var.setCodigo();
         var.getCodigo();
-        while(var.Controle()){
-            var.Compilador();
+        /*while(var.Controle()){
+            r=var.Compilador();
             var.getCodigo();
+            if(r==11){
+                break;
+            }
             //parte de impreçao dos controles
-        }
+        }*/
     }
 }
