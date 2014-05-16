@@ -58,7 +58,7 @@ public class Memoria {
                 
                 //controle dos espaços para colocar no codigo com cast
 
-                um=null;
+                um=null;           //NULL esta gerando erro na leitura do ZERO ***ATENÇÂO***
                 dois=null;
                 tres=null;
                 controle=0;
@@ -71,7 +71,6 @@ public class Memoria {
                         flag=1;
                     }
                     else if((guarda.substring(iterador,iterador+1).equals(" "))&&(flag==1)){
-                        System.out.println("Entro3");
                         dois = guarda.substring(controle,iterador);
                         iterador++;
                         controle=iterador;
@@ -79,19 +78,19 @@ public class Memoria {
                         flag=2;
                         iterador=tamanhostring;    //corta a ultima avaliação
                     }
-                    else if(flag==1){                       //ERRO tem que diferenciar de espaço e numero
-                        System.out.println("Entro2");
-                        dois = guarda.substring(controle,tamanhostring);
-                    }
-                    else if((flag==0)){                     //ERRO tem que diferenciar de espaço e numero
-                        System.out.println("Entro1");
-                        um = guarda.substring(controle,tamanhostring);
-                    }
+                }
+                if(flag==1){                       //Ta fora do for para nao dar erro nas leituras
+                    dois = guarda.substring(controle,tamanhostring);
+                    flag=5;
+                }
+                else if(flag==0){                 //ta fora do for para nao dar erro nas leituras
+                    um = guarda.substring(controle,tamanhostring);
+                    flag=5;
                 }
                 
                 //cast colocando string lida do txt em cada posição do int codigo
                 
-                if(um!=null){
+                if(um!=null){       //O NULL nao pega o valor zero que esta gerando um erro***ATENÇAO***
                     codigo[cont]=Integer.parseInt(um);
                     cont++;
                 }
